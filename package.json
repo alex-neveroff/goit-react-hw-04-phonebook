@@ -6,7 +6,6 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "axios": "^1.4.0",
     "gh-pages": "^5.0.0",
     "modern-normalize": "^1.1.0",
     "notiflix": "^3.2.6",
