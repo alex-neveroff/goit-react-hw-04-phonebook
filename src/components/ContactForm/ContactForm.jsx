@@ -1,74 +1,76 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import { PhonebookForm } from './ContactForm.styled';
 
-class ContactForm extends Component {
-  state = { name: '', number: '' };
+const ContactForm = ({ onSubmit }) => {
+  const [inputName, setInputName] = useState('');
+  const [inputNumber, setInputNumber] = useState('');
+  const inputNameId = nanoid();
+  const inputPhoneId = nanoid();
 
-  inputNameId = nanoid();
-  inputPhoneId = nanoid();
-
-  handleChange = event => {
+  const handleChange = event => {
     const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
+    if (name === 'name') {
+      setInputName(value);
+    } else if (name === 'number') {
+      setInputNumber(value);
+    }
   };
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-
     const newContact = {
       id: nanoid(),
-      name: this.state.name,
-      number: this.state.number,
+      name: inputName,
+      number: inputNumber,
     };
 
-    this.props.onSubmit(newContact);
-    this.reset();
+    onSubmit(newContact);
+    reset();
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  const reset = () => {
+    setInputName('');
+    setInputNumber('');
   };
 
-  render() {
-    return (
-      <PhonebookForm onSubmit={this.handleSubmit}>
-        <label className="form-label" htmlFor={this.inputNameId}>
-          Name:
-          <input
-            className="form-input"
-            type="text"
-            name="name"
-            id={this.inputNameId}
-            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            onChange={this.handleChange}
-            value={this.state.name}
-            required
-          />
-        </label>
-        <label className="form-label" htmlFor={this.inputPhoneId}>
-          Phone number:
-          <input
-            className="form-input"
-            type="tel"
-            name="number"
-            id={this.inputPhoneId}
-            pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            onChange={this.handleChange}
-            value={this.state.number}
-            required
-          />
-        </label>
-        <button className="form-submit" type="submit">
-          Add contact
-        </button>
-      </PhonebookForm>
-    );
-  }
-}
+  return (
+    <PhonebookForm onSubmit={handleSubmit}>
+      <label className="form-label" htmlFor={inputNameId}>
+        Name:
+        <input
+          className="form-input"
+          type="text"
+          name="name"
+          id={inputNameId}
+          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          onChange={handleChange}
+          value={inputName}
+          required
+        />
+      </label>
+      <label className="form-label" htmlFor={inputPhoneId}>
+        Phone number:
+        <input
+          className="form-input"
+          type="tel"
+          name="number"
+          id={inputPhoneId}
+          pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          onChange={handleChange}
+          value={inputNumber}
+          required
+        />
+      </label>
+      <button className="form-submit" type="submit">
+        Add contact
+      </button>
+    </PhonebookForm>
+  );
+};
 
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
