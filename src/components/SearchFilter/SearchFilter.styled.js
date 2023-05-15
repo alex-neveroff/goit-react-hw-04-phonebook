@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { colors } from 'Variables/colors';
-import { transitions } from 'Variables/transitions';
+import { colors } from 'variables/colors';
+import { transitions } from 'variables/transitions';
 
 export const SearchForm = styled.label`
   display: flex;

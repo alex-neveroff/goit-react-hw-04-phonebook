@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { transitions } from 'Variables/transitions';
-import { colors } from 'Variables/colors';
+import { transitions } from 'variables/transitions';
+import { colors } from 'variables/colors';
 
 export const PhonebookForm = styled.form`
   display: flex;
