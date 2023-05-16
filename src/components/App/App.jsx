@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Container } from './App.styled';
 import { Notify } from 'notiflix';
 import ContactForm from 'components/ContactForm';
@@ -9,6 +9,7 @@ import Notification from 'components/Notification';
 const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filtredContacts, setFiltredContacts] = useState([]);
+  const isFiltred = useRef(false);
 
   useEffect(() => {
     const storageContacts = localStorage.getItem('contacts');
@@ -49,6 +50,7 @@ const App = () => {
 
   const handleFilter = sortedContacts => {
     setFiltredContacts(sortedContacts);
+    isFiltred.current = true;
   };
 
   return (
@@ -59,10 +61,17 @@ const App = () => {
       {contacts.length > 0 ? (
         <>
           <SearchFilter contacts={contacts} onChange={handleFilter} />
-          {filtredContacts.length > 0 ? (
-            <ContactList contacts={filtredContacts} onDelete={deleteContact} />
+          {isFiltred.current ? (
+            filtredContacts.length > 0 ? (
+              <ContactList
+                contacts={filtredContacts}
+                onDelete={deleteContact}
+              />
+            ) : (
+              <Notification message="No matches found" />
+            )
           ) : (
-            <Notification message="No matches found" />
+            <ContactList contacts={contacts} onDelete={deleteContact} />
           )}
         </>
       ) : (

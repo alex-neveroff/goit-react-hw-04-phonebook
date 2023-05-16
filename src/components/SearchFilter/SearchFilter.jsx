@@ -13,23 +13,15 @@ const SearchFilter = ({ contacts, onChange }) => {
   useEffect(() => {
     const filterContacts = () => {
       const loweredFilter = filter.toLowerCase();
-      if (filter === '') {
-        setFiltredContacts(
-          contacts.sort((firstContact, secondContact) =>
+      setFiltredContacts(
+        contacts
+          .filter(contact => {
+            return contact.name.toLowerCase().includes(loweredFilter);
+          })
+          .sort((firstContact, secondContact) =>
             firstContact.name.localeCompare(secondContact.name)
           )
-        );
-      } else {
-        setFiltredContacts(
-          contacts
-            .filter(contact => {
-              return contact.name.toLowerCase().includes(loweredFilter);
-            })
-            .sort((firstContact, secondContact) =>
-              firstContact.name.localeCompare(secondContact.name)
-            )
-        );
-      }
+      );
     };
 
     filterContacts();
