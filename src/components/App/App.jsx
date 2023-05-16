@@ -56,10 +56,10 @@ const App = () => {
       <h1 className="title main-title">Phonebook</h1>
       <ContactForm onSubmit={addContact} />
       <h2 className="title sub-title">Contacts</h2>
-      {contacts ? (
+      {contacts.length > 0 ? (
         <>
           <SearchFilter contacts={contacts} onChange={handleFilter} />
-          {filtredContacts ? (
+          {filtredContacts.length > 0 ? (
             <ContactList contacts={filtredContacts} onDelete={deleteContact} />
           ) : (
             <Notification message="No matches found" />
