@@ -8,7 +8,7 @@ import Notification from 'components/Notification';
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+  const [filtredContacts, setFiltredContacts] = useState('');
 
   useEffect(() => {
     const storageContacts = localStorage.getItem('contacts');
@@ -47,22 +47,9 @@ const App = () => {
     Notify.warning(`${contactName.name} delete from phonebook.`);
   };
 
-  const handleFilter = event => {
-    setFilter(event.currentTarget.value);
+  const handleFilter = sortedContacts => {
+    setFiltredContacts(sortedContacts);
   };
-
-  const showContacts = () => {
-    const loweredFilter = filter.toLowerCase();
-    return contacts
-      .filter(contact => {
-        return contact.name.toLowerCase().includes(loweredFilter);
-      })
-      .sort((firstContact, secondContact) =>
-        firstContact.name.localeCompare(secondContact.name)
-      );
-  };
-
-  const visibleContacts = showContacts();
 
   return (
     <Container>
@@ -71,9 +58,9 @@ const App = () => {
       <h2 className="title sub-title">Contacts</h2>
       {contacts.length > 0 ? (
         <>
-          <SearchFilter filter={filter} onChange={handleFilter} />
-          {visibleContacts.length > 0 ? (
-            <ContactList contacts={visibleContacts} onDelete={deleteContact} />
+          <SearchFilter contacts={contacts} onFilter={handleFilter} />
+          {filtredContacts.length > 0 ? (
+            <ContactList contacts={filtredContacts} onDelete={deleteContact} />
           ) : (
             <Notification message="No matches found" />
           )}
