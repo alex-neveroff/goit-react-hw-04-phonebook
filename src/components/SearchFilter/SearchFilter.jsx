@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { SearchForm } from 'components/SearchFilter/SearchFilter.styled';
 import { useState, useEffect } from 'react';
 
-const SearchFilter = ({ contacts, onFilter }) => {
+const SearchFilter = ({ contacts, onChange }) => {
   const [filter, setFilter] = useState('');
   const [filtredContacts, setFiltredContacts] = useState([]);
 
@@ -36,8 +36,8 @@ const SearchFilter = ({ contacts, onFilter }) => {
   }, [filter, contacts]);
 
   useEffect(() => {
-    onFilter(filtredContacts);
-  }, [filtredContacts, onFilter]);
+    onChange(filtredContacts);
+  }, [filtredContacts, onChange]);
 
   return (
     <SearchForm htmlFor="filter-field">
@@ -55,7 +55,7 @@ const SearchFilter = ({ contacts, onFilter }) => {
 
 SearchFilter.propTypes = {
   contacts: PropTypes.array.isRequired,
-  onFilter: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default SearchFilter;

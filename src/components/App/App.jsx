@@ -8,7 +8,7 @@ import Notification from 'components/Notification';
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
-  const [filtredContacts, setFiltredContacts] = useState('');
+  const [filtredContacts, setFiltredContacts] = useState([]);
 
   useEffect(() => {
     const storageContacts = localStorage.getItem('contacts');
@@ -58,7 +58,7 @@ const App = () => {
       <h2 className="title sub-title">Contacts</h2>
       {contacts.length > 0 ? (
         <>
-          <SearchFilter contacts={contacts} onFilter={handleFilter} />
+          <SearchFilter contacts={contacts} onChange={handleFilter} />
           {filtredContacts.length > 0 ? (
             <ContactList contacts={filtredContacts} onDelete={deleteContact} />
           ) : (
