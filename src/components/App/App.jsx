@@ -20,12 +20,17 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (contacts.length > 0) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    } else {
+    if (contacts.length === 0) {
       localStorage.removeItem('contacts');
+      return;
     }
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
+
+  const handleFilter = filtredContacts => {
+    setFiltredContacts(filtredContacts);
+    isFiltred.current = true;
+  };
 
   const addContact = newContact => {
     const loweredNewContact = newContact.name.toLowerCase();
@@ -48,9 +53,12 @@ const App = () => {
     Notify.warning(`${contactName.name} delete from phonebook.`);
   };
 
-  const handleFilter = sortedContacts => {
-    setFiltredContacts(sortedContacts);
-    isFiltred.current = true;
+  const sortContacts = unsortedContacts => {
+    const sortedContacts = unsortedContacts.sort(
+      (firstContact, secondContact) =>
+        firstContact.name.localeCompare(secondContact.name)
+    );
+    return sortedContacts;
   };
 
   return (
@@ -64,14 +72,17 @@ const App = () => {
           {isFiltred.current ? (
             filtredContacts.length > 0 ? (
               <ContactList
-                contacts={filtredContacts}
+                contacts={sortContacts(filtredContacts)}
                 onDelete={deleteContact}
               />
             ) : (
               <Notification message="No matches found" />
             )
           ) : (
-            <ContactList contacts={contacts} onDelete={deleteContact} />
+            <ContactList
+              contacts={sortContacts(contacts)}
+              onDelete={deleteContact}
+            />
           )}
         </>
       ) : (

@@ -14,13 +14,9 @@ const SearchFilter = ({ contacts, onChange }) => {
     const filterContacts = () => {
       const loweredFilter = filter.toLowerCase();
       setFiltredContacts(
-        contacts
-          .filter(contact => {
-            return contact.name.toLowerCase().includes(loweredFilter);
-          })
-          .sort((firstContact, secondContact) =>
-            firstContact.name.localeCompare(secondContact.name)
-          )
+        contacts.filter(contact => {
+          return contact.name.toLowerCase().includes(loweredFilter);
+        })
       );
     };
 
