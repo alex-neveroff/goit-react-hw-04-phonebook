@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from './App.styled';
 import { Notify } from 'notiflix';
 import ContactForm from 'components/ContactForm';
@@ -8,8 +8,7 @@ import Notification from 'components/Notification';
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
-  const [filtredContacts, setFiltredContacts] = useState([]);
-  const isFiltred = useRef(false);
+  const [filtredContacts, setFiltredContacts] = useState(null);
 
   useEffect(() => {
     const storageContacts = localStorage.getItem('contacts');
@@ -29,7 +28,6 @@ const App = () => {
 
   const handleFilter = filtredContacts => {
     setFiltredContacts(filtredContacts);
-    isFiltred.current = true;
   };
 
   const addContact = newContact => {
@@ -69,7 +67,7 @@ const App = () => {
       {contacts.length > 0 ? (
         <>
           <SearchFilter contacts={contacts} onChange={handleFilter} />
-          {isFiltred.current ? (
+          {filtredContacts ? (
             filtredContacts.length > 0 ? (
               <ContactList
                 contacts={sortContacts(filtredContacts)}
