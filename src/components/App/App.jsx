@@ -7,16 +7,10 @@ import SearchFilter from 'components/SearchFilter';
 import Notification from 'components/Notification';
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    JSON.parse(localStorage.getItem('contacts')) ?? []
+  );
   const [filtredContacts, setFiltredContacts] = useState(null);
-
-  useEffect(() => {
-    const storageContacts = localStorage.getItem('contacts');
-    const parsedStorageContacts = JSON.parse(storageContacts);
-    if (parsedStorageContacts) {
-      setContacts(parsedStorageContacts);
-    }
-  }, []);
 
   useEffect(() => {
     if (contacts.length === 0) {
